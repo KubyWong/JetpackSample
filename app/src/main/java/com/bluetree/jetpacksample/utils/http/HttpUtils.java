@@ -7,7 +7,7 @@ import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class HttpUtils {
-    private static final String BASE_URL = "https://api.apiopen.top/";
+    public static final String BASE_URL = "https://api.apiopen.top/";
     private static Retrofit rf1;
     private static BytePayApiService allApiInCompany;
 

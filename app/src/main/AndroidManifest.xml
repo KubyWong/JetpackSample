@@ -1,31 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:dist="http://schemas.android.com/apk/distribution"
-package="com.bluetree.jetpacksample">
+    xmlns:dist="http://schemas.android.com/apk/distribution"
+    package="com.bluetree.jetpacksample">
 
-<dist:module dist:instant="true" />
+    <dist:module dist:instant="true" />
 
-<uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
-<application
-    android:allowBackup="true"
-    android:icon="@mipmap/ic_launcher"
-    android:label="@string/app_name"
-    android:roundIcon="@mipmap/ic_launcher_round"
-    android:supportsRtl="true"
-    android:theme="@style/AppTheme">
-    <activity android:name=".activity.SampleNavigationActivity" />
-    <activity android:name=".activity.SampleBindDataActivity" />
-    <activity android:name=".activity.SamplePagingActivity" />
-    <activity android:name=".activity.SampleRecycleViewActivity" />
-    <activity android:name=".activity.SampleViewModelActivity" />
-    <activity android:name=".SampleActivity">
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".activity.SampleReqNetWorkActivity"></activity>
+        <activity android:name=".activity.SampleNavigationActivity" />
+        <activity android:name=".activity.SampleBindDataActivity" />
+        <activity android:name=".activity.SamplePagingActivity" />
+        <activity android:name=".activity.SampleRecycleViewActivity" />
+        <activity android:name=".activity.SampleViewModelActivity" />
+        <activity android:name=".SampleActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
-    </activity>
-</application>
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
 
 </manifest>

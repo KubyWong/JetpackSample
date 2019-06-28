@@ -13,6 +13,7 @@ import com.bluetree.jetpacksample.bean.SamMusicBean;
 import com.bluetree.jetpacksample.bean.SamMusicResponeBean;
 import com.bluetree.jetpacksample.utils.LogUtils;
 import com.bluetree.jetpacksample.utils.http.HttpUtils;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;

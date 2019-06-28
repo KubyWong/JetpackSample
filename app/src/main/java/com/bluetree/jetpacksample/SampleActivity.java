@@ -22,6 +22,7 @@ import com.bluetree.jetpacksample.activity.SampleBindDataActivity;
 import com.bluetree.jetpacksample.activity.SampleNavigationActivity;
 import com.bluetree.jetpacksample.activity.SamplePagingActivity;
 import com.bluetree.jetpacksample.activity.SampleRecycleViewActivity;
+import com.bluetree.jetpacksample.activity.SampleReqNetWorkActivity;
 import com.bluetree.jetpacksample.activity.SampleViewModelActivity;
 import com.bluetree.jetpacksample.utils.LogUtils;
 import com.bluetree.jetpacksample.utils.http.BaseHttpRetrofitCallback;
@@ -63,7 +64,7 @@ public class SampleActivity extends BaseActivity {
 
         final List<String> list = new ArrayList<>();
         setContentView(R.layout.activity_sample);
-        list.add("retrofit是基于okhttp封装");//0
+        list.add("retrofit+rxjava");//0
         list.add("retrofit高内聚低耦合，可以用Gson来转换数据");//1
         list.add("rxjava是转换了retrofit的回调");//2
         list.add("使用LifeCycle去监听有生命的组件，如Activity和Fragment");//3
@@ -104,18 +105,12 @@ public class SampleActivity extends BaseActivity {
                     public void onClick(View v) {
                         switch (i) {
                             case 0://最普通的原始的加载
-                                simpleRequestServer();
-                                break;
-
-                            case 1://经过封装后，取出请求的url，请求之后的数据
-                                HttpUtils.getAllApiInCompany().searchMusic("Gavin")
-                                        .enqueue(new BaseHttpRetrofitCallback<ResponseBody>());
-                                break;
-
-                            case 2://使用rxjava来转换回调，可以使用rxjava的特性
-                                HttpUtils.getAllApiInCompany().searchMusicRx("Hello")
-                                        .subscribeOn(Schedulers.io())
-                                        .subscribe(new BaseHttpRxjavaCallback<Result<ResponseBody>>());
+                            case 1:
+                            case 2:
+                            case 7:
+                            case 8:
+                                //simpleRequestServer();
+                                startActivity(new Intent(SampleActivity.this, SampleReqNetWorkActivity.class));
                                 break;
 
                             case 3://Lifecycle
@@ -140,12 +135,6 @@ public class SampleActivity extends BaseActivity {
                                 //EasyRefreshLayout：这个库让你轻松实现下拉刷新和上拉更多
                                 //EasySwipeMenuLayout：独立的侧滑删除
                                 startActivity(new Intent(SampleActivity.this, SampleRecycleViewActivity.class));
-                                break;
-                            case 7://retrofit队列同步请求，需要在子线程
-                                requestServerAsynco();
-                                break;
-                            case 8:
-                                requestManyServerByRxjavaByOrder();
                                 break;
                             case 9:
                                 requestManyServerByRxjavaTogether();
@@ -219,101 +208,6 @@ public class SampleActivity extends BaseActivity {
                 });
     }
 
-    /**
-     * Retrofit+Rxjava 多个任务串行请求
-     */
-    private void requestManyServerByRxjavaByOrder() {
-        Observable<Result<ResponseBody>> observable1 = HttpUtils.getAllApiInCompany().getTangPoerty(1, 5);
-        final Observable<Result<ResponseBody>> observable2 = HttpUtils.getAllApiInCompany().searchMusicRx("hello");
-
-        observable1.subscribeOn(Schedulers.io())
-        .observeOn(Schedulers.io())
-        .flatMap(new Function<Result<ResponseBody>, Observable<Result<ResponseBody>>>() {
-            @Override
-            public Observable<Result<ResponseBody>> apply(Result<ResponseBody> responseBodyResult) throws Exception {
-                final String result = responseBodyResult.response().body().string();
-                LogUtils.i(this,"串行接口1数据："+result);
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(SampleActivity.this, "串行接口1数据："+result, Toast.LENGTH_SHORT).show();
-                    }
-                });
-                return observable2;
-            }
-        })
-        .subscribeOn(Schedulers.io())
-        .observeOn(AndroidSchedulers.mainThread())
-        .subscribe(new Observer<Result<ResponseBody>>() {
-            @Override
-            public void onSubscribe(Disposable d) {
-                showLoadingBar("Retrofit+Rxjava 多个任务串行请求");
-                LogUtils.i(this,"Retrofit+Rxjava 多个任务串行请求 begin");
-            }
-
-            @Override
-            public void onNext(Result<ResponseBody> responseBodyResult) {
-                String result = null;
-                try {
-                    result = responseBodyResult.response().body().string();
-                    LogUtils.i(this,"串行接口2数据："+result);
-                    Toast.makeText(SampleActivity.this, "串行接口2数据："+result, Toast.LENGTH_SHORT).show();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override
-            public void onError(Throwable e) {
-
-            }
-
-            @Override
-            public void onComplete() {
-                LogUtils.i(this,"Retrofit+Rxjava 多个任务串行请求 finish");
-                hideLoadingBar();
-                Toast.makeText(SampleActivity.this, "Retrofit+Rxjava 多个任务串行请求 finish", Toast.LENGTH_SHORT).show();
-            }
-        });
-        ;
-
-    }
-
-    /**
-     * 使用retrofit在同步串行调用接口
-     */
-    private void requestServerAsynco() {
-        showLoadingBar();
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Map<String, String> mapParams = new HashMap<>();
-//        ?page=1&count=2&type=video
-                    mapParams.put("page", "1");
-                    mapParams.put("count", "4");
-                    mapParams.put("type", "video");
-
-                    Call<ResponseBody> call = HttpUtils.getAllApiInCompany().getSimpleString(mapParams);
-                    Response<ResponseBody> respone = call.execute();
-                    String result = respone.body().string();
-
-                    LogUtils.i(this,"同步处理结果1："+result);
-
-                    Call<ResponseBody> call2 = HttpUtils.getAllApiInCompany().searchMusic("hello");
-                    Response<ResponseBody> respone2 = call2.execute();//必须在子线程中
-                    String result2 = respone2.body().string();
-
-                    LogUtils.i(this,"同步处理结果2："+result2);
-
-                    handler.sendEmptyMessage(1);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        }).start();
-
-    }
 
     static class MyHandle extends Handler {
         WeakReference<Context> weakReference;
