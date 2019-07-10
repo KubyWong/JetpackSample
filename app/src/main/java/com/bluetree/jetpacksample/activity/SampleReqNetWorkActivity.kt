@@ -43,7 +43,7 @@ class SampleReqNetWorkActivity : BaseActivity(){
         var weakReference: WeakReference<Context> = WeakReference(context)
 
         override fun handleMessage(msg: Message?) {
-            Toast.makeText(weakReference.get(), "多个接口已调用完成", Toast.LENGTH_SHORT).show()
+            ToastUtils.show(weakReference.get()!!, "多个接口已调用完成")
             if (weakReference.get() is BaseActivity) {
                 (weakReference.get() as BaseActivity).hideLoadingBar()
             }
@@ -71,9 +71,6 @@ class SampleReqNetWorkActivity : BaseActivity(){
             adapter = ArrayAdapter<String>(this@SampleReqNetWorkActivity,android.R.layout.simple_list_item_1,strArr)
             setOnItemClickListener(object : AdapterView.OnItemClickListener {
                 override fun onItemClick(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                    Toast.makeText(this@SampleReqNetWorkActivity, "position: ${position}", Toast.LENGTH_SHORT).show()
-
-
                     when (position) {
                         0 -> {
                             //同步(Synchronous)和异步(Asynchronous)
@@ -129,7 +126,8 @@ class SampleReqNetWorkActivity : BaseActivity(){
                         try {
                             val resultStr = responseBodyResult.response()!!.body()!!.string()
                             LogUtils.i(this, resultStr)
-                            Toast.makeText(this@SampleReqNetWorkActivity, "count : $count\n$resultStr", Toast.LENGTH_SHORT).show()
+                            ToastUtils.show(this@SampleReqNetWorkActivity, "已完成${count}个接口：\n$resultStr")
+
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }

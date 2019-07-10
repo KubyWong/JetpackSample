@@ -55,8 +55,6 @@ public class SampleActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        initLifecycleObeserver();
-
         final List<String> list = new ArrayList<>();
         setContentView(R.layout.activity_sample);
         list.add("retrofit(基于okhttp封装) + rxjava");//0
@@ -66,9 +64,6 @@ public class SampleActivity extends BaseActivity {
         list.add("databinding数据绑定");//4
         list.add("navigation导航");//5
         list.add("一个开源易用的RecycleviewAdapter");//6
-
-
-
 
         RecyclerView rv = findViewById(R.id.rv);
         rv.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
@@ -112,15 +107,15 @@ public class SampleActivity extends BaseActivity {
                                 //https://www.jianshu.com/p/b8a29407b6e1
                                 break;
                             case 3:
-                                startActivity(new Intent(SampleActivity.this, SampleNavigationActivity.class));
-//                                startActivity(new Intent(SampleActivity.this,SampleNavigationActivity2.class));
+                                startActivity(new Intent(SampleActivity.this, SamplePagingActivity.class));
+
                                 break;
                             case 4:
                                 startActivity(new Intent(SampleActivity.this, SampleBindDataActivity.class));
                                 break;
                             case 5:
-                                startActivity(new Intent(SampleActivity.this, SamplePagingActivity.class));
-
+                                startActivity(new Intent(SampleActivity.this, SampleNavigationActivity.class));
+//                                startActivity(new Intent(SampleActivity.this,SampleNavigationActivity2.class));
                                 break;
                             case 6://BaseRecyclerViewAdapterHelper
                                 //参考：https://www.jianshu.com/p/b343fcff51b0
