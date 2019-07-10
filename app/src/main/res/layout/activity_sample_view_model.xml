@@ -7,10 +7,20 @@
     android:orientation="vertical"
     tools:context=".activity.SampleViewModelActivity">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:isScrollContainer="true"
+        android:textSize="20sp"
+        android:text="LiveData 是生命周期感知的「数据持有类」，意味着它代表其它应用组件譬如 Activity、Fragment、Service 的生命周期。这确保了 LiveData 只会更新处于活跃状态的组件。
+        \n用来保存UI数据的类，Google建议把所有UI数据保存在ViewModel中，而不是Activity中"
+        />
+
     <SearchView
         android:id="@+id/search_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+
 
     <TextView
         android:id="@+id/tv"
