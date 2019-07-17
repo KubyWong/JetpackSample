@@ -54,7 +54,7 @@ public class SampleRecycleViewActivity extends AppCompatActivity {
 
     }
 
-    class MyDataModel{
+    public static class MyDataModel{
         String imgUrl;
         String text;
 
@@ -64,7 +64,7 @@ public class SampleRecycleViewActivity extends AppCompatActivity {
         }
     }
 
-    class MyAdapter extends BaseQuickAdapter<MyDataModel,BaseViewHolder> {
+    public static class MyAdapter extends BaseQuickAdapter<MyDataModel,BaseViewHolder> {
         public MyAdapter(@Nullable List<MyDataModel> data) {
             super(android.R.layout.activity_list_item,data);
         }

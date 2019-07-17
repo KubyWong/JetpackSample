@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SampleReqNetWorkActivity"></activity>
+        <activity android:name=".activity.SampleRxjavaActivity"></activity>
+        <activity android:name=".activity.SampleReqNetWorkActivity" />
         <activity android:name=".activity.SampleNavigationActivity" />
         <activity android:name=".activity.SampleBindDataActivity" />
         <activity android:name=".activity.SamplePagingActivity" />

@@ -23,6 +23,7 @@ import com.bluetree.jetpacksample.activity.SampleNavigationActivity;
 import com.bluetree.jetpacksample.activity.SamplePagingActivity;
 import com.bluetree.jetpacksample.activity.SampleRecycleViewActivity;
 import com.bluetree.jetpacksample.activity.SampleReqNetWorkActivity;
+import com.bluetree.jetpacksample.activity.SampleRxjavaActivity;
 import com.bluetree.jetpacksample.activity.SampleViewModelActivity;
 import com.bluetree.jetpacksample.utils.LogUtils;
 import com.bluetree.jetpacksample.utils.ToastUtils;
@@ -64,6 +65,7 @@ public class SampleActivity extends BaseActivity {
         list.add("databinding数据绑定");//4
         list.add("navigation导航");//5
         list.add("一个开源易用的RecycleviewAdapter");//6
+        list.add("rxjava");//7
 
         RecyclerView rv = findViewById(R.id.rv);
         rv.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
@@ -125,6 +127,9 @@ public class SampleActivity extends BaseActivity {
                                 //EasySwipeMenuLayout：独立的侧滑删除
                                 startActivity(new Intent(SampleActivity.this, SampleRecycleViewActivity.class));
                                 break;
+                            case 7:
+                                jumpActivity(SampleRxjavaActivity.class);
+                                break;
                         }
                     }
 
@@ -137,6 +142,10 @@ public class SampleActivity extends BaseActivity {
             }
         };
         rv.setAdapter(adapter);
+    }
+
+    private void jumpActivity(Class<?> targetClass) {
+        startActivity(new Intent(SampleActivity.this,targetClass));
     }
 
 
