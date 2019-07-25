@@ -10,6 +10,9 @@ public class LogUtils {
         Log.i(from == null||from.getClass() == null|| TextUtils.isEmpty(from.getClass().getSimpleName()) ?
                 "LogUtils":from.getClass().getSimpleName(), msg);
     }
+    public static void i(String msg) {
+        i(null, msg);
+    }
     public static void e(Object from,String msg) {
         if(msg == null) return;
         Log.e(from == null?"LogUtils":from.getClass().getSimpleName(), msg);

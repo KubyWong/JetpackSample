@@ -29,7 +29,7 @@ abstract public class BaseRecycleActivity extends BaseActivity {
         rv = findViewById(R.id.rv);
 
         list = initList();
-        SampleRecycleViewActivity.MyAdapter adapter = new SampleRecycleViewActivity.MyAdapter(list);
+        MyAdapter adapter = new MyAdapter(list);
 
         TextView tv_empty = new TextView(this);
         tv_empty.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
@@ -43,4 +43,26 @@ abstract public class BaseRecycleActivity extends BaseActivity {
 
     abstract List initList();
     protected abstract BaseQuickAdapter.OnItemClickListener getItemClickListener();
+
+
+    public static class MyDataModel{
+        String imgUrl;
+        String text;
+
+        public MyDataModel(String imgUrl, String text) {
+            this.imgUrl = imgUrl;
+            this.text = text;
+        }
+    }
+
+    public static class MyAdapter extends BaseQuickAdapter<MyDataModel,BaseViewHolder> {
+        public MyAdapter(@Nullable List<MyDataModel> data) {
+            super(android.R.layout.simple_list_item_2,data);
+        }
+
+        @Override
+        protected void convert(BaseViewHolder helper, MyDataModel item) {
+            ((TextView)helper.getView(android.R.id.text1)).setText(item.text);
+        }
+    }
 }
