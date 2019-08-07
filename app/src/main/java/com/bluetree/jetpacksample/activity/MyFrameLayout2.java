@@ -13,7 +13,11 @@ import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 
 public class MyFrameLayout2 extends FrameLayout {
-    private float[] downPositionX = {0,0};
+
+
+    private int itemRowHeight;
+    private int itemChildRowHeight;
+    private int itemRowWidth;
 
     public MyFrameLayout2(@Nullable Context context) {
         super(context);
@@ -31,13 +35,7 @@ public class MyFrameLayout2 extends FrameLayout {
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         LogUtils.i("~\nMyLayout2.dispatchTouchEvent(x,y) = (" + ev.getX() + "," + ev.getY() + ")");
-        switch (ev.getAction()) {
-            case ACTION_DOWN:
-                LogUtils.e("down--->");
-                downPositionX[0] = ev.getX();
-                downPositionX[1] = ev.getY();
 
-        }
         return super.dispatchTouchEvent(ev);
     }
 
@@ -45,10 +43,6 @@ public class MyFrameLayout2 extends FrameLayout {
     @Override
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         LogUtils.i("MyLayout2.onInterceptTouchEvent(x,y) = (" + ev.getX() + "," + ev.getY() + ")");
-        if (ev.getAction() == ACTION_MOVE) {
-            LogUtils.e("move------------------");
-                return true;
-        }
 
         return super.onInterceptTouchEvent(ev);
     }

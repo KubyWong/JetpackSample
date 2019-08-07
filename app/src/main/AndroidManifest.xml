@@ -14,7 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SampleRxjavaActivity"></activity>
+        <activity android:name=".activity.ExpandnableTableLayoutActivity2">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".activity.ExpandnableTableLayoutActivity">
+        </activity>
+        <activity android:name=".activity.SampleRxjavaActivity" />
         <activity android:name=".activity.SampleReqNetWorkActivity" />
         <activity android:name=".activity.SampleNavigationActivity" />
         <activity android:name=".activity.SampleBindDataActivity" />
@@ -22,11 +31,14 @@
         <activity android:name=".activity.SampleRecycleViewActivity" />
         <activity android:name=".activity.SampleViewModelActivity" />
         <activity android:name=".SampleActivity">
+
+            <!--
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+            -->
         </activity>
     </application>
 

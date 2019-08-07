@@ -14,6 +14,10 @@ import static android.view.MotionEvent.ACTION_UP;
 
 public class MyFrameLayout extends FrameLayout {
     private float[] downPositionX = {0,0};
+
+    /**
+     * 当前事件序列是否为横向滑动
+     */
     private boolean isHorizontal;
 
     public MyFrameLayout(@Nullable Context context) {
@@ -46,10 +50,8 @@ public class MyFrameLayout extends FrameLayout {
                 }
 
                 break;
-            /*case ACTION_UP:
+            case ACTION_UP:
                 LogUtils.i("<---up");
-                isHorizontal = false;
-                break;*/
             default:
                 if (isHorizontalScroller(ev)) {
                     return getChildAt(0).dispatchTouchEvent(ev);
@@ -86,12 +88,11 @@ public class MyFrameLayout extends FrameLayout {
             case ACTION_MOVE:
                 LogUtils.i("move------------------");
                 if (Math.abs(ev.getY() - downPositionX[1]) > 10) {
+                    isHorizontal = false;
                     //竖直方向移动返回
-                    LogUtils.e("返回true");
                     return true;
                 }
                 break;
-
         }
 
         return super.onInterceptTouchEvent(ev);
@@ -102,4 +103,5 @@ public class MyFrameLayout extends FrameLayout {
         LogUtils.i("MyLayout.onTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
         return super.onTouchEvent(e);
     }
+
 }

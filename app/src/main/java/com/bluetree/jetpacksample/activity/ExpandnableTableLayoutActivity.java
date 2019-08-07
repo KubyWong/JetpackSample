@@ -7,10 +7,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bluetree.jetpacksample.R;
@@ -22,10 +21,40 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
     private RecyclerView lv_fixed;
     private TableFixedAdapter fixAdapter;
 
+    enum CULOMN_TYPE {
+        FIX, ACTIVE
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_expandnable_table_layout);
+
+
+        CombineAdapter adapterCombain = new CombineAdapter() {
+
+            @Override
+            public void onFixBindViewHolder(@NonNull RecyclerView.ViewHolder vh, int i) {
+
+            }
+
+            @Override
+            public void onActiveBindViewHolder(@NonNull RecyclerView.ViewHolder vh, int i) {
+
+            }
+
+            @Override
+            public View getFixView() {
+                return null;
+            }
+
+            @Override
+            public View getMoveView() {
+                return null;
+            }
+        };
+
+
 
         String[][] arr = new String[26][8];
         for (int i = 0; i < arr.length; i++) {
@@ -39,6 +68,7 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
         fixAdapter = new TableFixedAdapter(this,arr);
         lv_fixed.setAdapter(fixAdapter);
 
+
         rv_move = findViewById(R.id.rv_move);
         rv_move.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false){
             @Override
@@ -49,9 +79,12 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
         adapter = new TableMoveAdapter(this, arr,rv_move);
         rv_move.setAdapter(adapter);
 
-        fixAdapter.setMoveAdapter(adapter);
+        fixAdapter.linkAdapter(adapter);
     }
 
+    /**
+     * 第二个adapter
+     */
     private static class TableMoveAdapter extends A_RVAdapter{
 
         private static final int ITEM_WIDTH = 300;
@@ -74,30 +107,8 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
-            LinearLayout itemLinearLayout = new LinearLayout(mContext);
-            itemLinearLayout.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            itemLinearLayout.setOrientation(LinearLayout.VERTICAL);
-
-            //第一行
-            LinearLayout itemLinearLayoutFirstLine = new LinearLayout(mContext);
-            itemLinearLayoutFirstLine.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            itemLinearLayout.addView(itemLinearLayoutFirstLine);
-
-            //第二行
-            View viewSpaceSecond = new View(mContext);
-            viewSpaceSecond.setId(200 * 1);
-            viewSpaceSecond.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, measureTextViewHeight()));
-            viewSpaceSecond.setVisibility(View.GONE);
-            itemLinearLayout.addView(viewSpaceSecond);
-
-            for (int j = 0; j < arr[0].length; j++) {
-                TextView itemRowText = new TextView(mContext);
-                itemRowText.setId(j+100);
-                itemRowText.setGravity(Gravity.CENTER);
-                itemRowText.setLayoutParams(new LinearLayout.LayoutParams(ITEM_WIDTH, ITEM_HEIGHT));
-                itemLinearLayoutFirstLine.addView(itemRowText);
-            }
+            View itemLinearLayout = LayoutInflater.from(mContext).inflate(R.layout.item_scroll_row, null);
+            if(commonAdapter!=null) itemLinearLayout = commonAdapter.getMoveView();
             return new RecyclerView.ViewHolder(itemLinearLayout) {
                 @Override
                 public String toString() {
@@ -108,18 +119,23 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, int i) {
-            String[] linearBean = arr[i];
-            final ViewGroup parentView= (ViewGroup) ((ViewGroup) viewHolder.itemView).getChildAt(0);
-            for (int j = 0; j < linearBean.length; j++) {
-                TextView itemTextView = ((TextView) parentView.getChildAt(j));
-                itemTextView.setText(linearBean[j]);
-                /*itemTextView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        LogUtils.i(v.toString());
-                    }
-                });*/
+            if (commonAdapter != null) {
+                commonAdapter.onActiveBindViewHolder(viewHolder, i);
+            }else{
+                bind(viewHolder, arr[i]);
             }
+        }
+
+        private void bind(@NonNull RecyclerView.ViewHolder viewHolder, String[] linearBean1) {
+            String[] linearBean = linearBean1;
+            View parentView = viewHolder.itemView;
+            TextView tv_current_price = parentView.findViewById(R.id.tv_current_price);
+            TextView tv_chg = parentView.findViewById(R.id.tv_chg);
+            TextView tv_short_des = parentView.findViewById(R.id.tv_short_des);
+
+            tv_current_price.setText(linearBean[1]);
+            tv_chg.setText(linearBean[2]);
+            tv_short_des.setText(linearBean[3]);
         }
 
         @Override
@@ -130,23 +146,20 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
 
         public void showChildLine(int i) {
             ViewGroup viewGroup = (ViewGroup) rv.getChildAt(i);
-            View viewSpace = viewGroup.findViewById(200 * 1);
+            View viewSpace = viewGroup.findViewById(R.id.v_space);
             viewSpace.setVisibility(View.VISIBLE);
             smoothShowView(measureTextViewHeight(), viewSpace);
         }
 
         public void hideChildLine(int i) {
             ViewGroup viewGroup = (ViewGroup) rv.getChildAt(i);
-            View viewSpace = viewGroup.findViewById(200 * 1);
+            View viewSpace = viewGroup.findViewById(R.id.v_space);
             viewSpace.setVisibility(View.GONE);
         }
     }
 
     private static class TableFixedAdapter extends A_RVAdapter{
 
-        private static final int ITEM_WIDTH = 300;
-        private static final int ITEM_HEIGHT = 100;
-        private Context mContext;
         private String[][] arr;
         private TableMoveAdapter moveAdapter;
 
@@ -155,28 +168,19 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
             this.arr = arr;
         }
 
-        public void setMoveAdapter(TableMoveAdapter moveAdapter) {
+        public void linkAdapter(TableMoveAdapter moveAdapter) {
             this.moveAdapter = moveAdapter;
         }
 
         @NonNull
         @Override
         public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-            LinearLayout itemLinearLayoutLine = new LinearLayout(mContext);
-            itemLinearLayoutLine.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-            itemLinearLayoutLine.setOrientation(LinearLayout.VERTICAL);
-            TextView itemRowText = new TextView(mContext);
-            itemRowText.setGravity(Gravity.CENTER);
-            itemRowText.setLayoutParams(new LinearLayout.LayoutParams(ITEM_WIDTH, ITEM_HEIGHT));
-            itemLinearLayoutLine.addView(itemRowText);
+            View viewRow = LayoutInflater.from(mContext).inflate(R.layout.item_fix_row, null);
+            if (commonAdapter != null) {
+                viewRow = commonAdapter.getFixView();
+            }
 
-
-            TextView itemDescr = new TextView(mContext);
-            itemDescr.setGravity(Gravity.CENTER);
-            itemDescr.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, measureTextViewHeight()));
-            itemDescr.setVisibility(View.GONE);
-            itemLinearLayoutLine.addView(itemDescr);
-            return new RecyclerView.ViewHolder(itemLinearLayoutLine) {
+            return new RecyclerView.ViewHolder(viewRow) {
                 @Override
                 public String toString() {
                     return super.toString();
@@ -186,22 +190,35 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
 
         @Override
         public void onBindViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
+            if (commonAdapter != null) {
+                commonAdapter.onFixBindViewHolder(viewHolder,i);
+            }else{
+                onViewHolder(viewHolder, i);
+            }
+        }
+
+        private void onViewHolder(@NonNull RecyclerView.ViewHolder viewHolder, final int i) {
             String[] linearBean = arr[i];
             final ViewGroup parentView= ((ViewGroup) viewHolder.itemView);
-            final TextView tv = ((TextView) parentView.getChildAt(0));
+            final TextView tvTitle = parentView.findViewById(R.id.tv_title);
+            final TextView tvCode = parentView.findViewById(R.id.tv_code);
             final TextView tvDes = ((TextView) parentView.getChildAt(1));
-            tv.setText(linearBean[0]);
-            tv.setOnClickListener(new View.OnClickListener() {
+            tvTitle.setText(linearBean[0]);
+            tvTitle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (tvDes.getVisibility() == View.GONE) {
-                        showChildRow(tvDes, i);
+                        int targetHeight = measureTextViewHeight(i);
+                        smoothShowView(targetHeight, tvDes);
+                        moveAdapter.showChildLine(i);
                     }else {
-                        hideChildRow(tvDes, i);
+                        tvDes.setVisibility(View.GONE);
+                        moveAdapter.hideChildLine(i);
                     }
-                    //showView(parentView, "fasdfasdfasdfas\nasdfasdfasdfccc");
                 }
             });
+            tvCode.setText(linearBean[0]);
+            tvDes.setText(linearBean[0]);
         }
 
 
@@ -210,33 +227,39 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
             return arr.length;
         }
 
-        @Override
-        void hideChildRow(View tvDes, int i) {
-            tvDes.setVisibility(View.GONE);
-            moveAdapter.hideChildLine(i);
-        }
-
-        @Override
-        void showChildRow(View tvDes, int i) {
-            int targetHeight = measureTextViewHeight();
-            smoothShowView(targetHeight, tvDes);
-            moveAdapter.showChildLine(i);
-        }
-
     }
 
-
+    /**
+     * 适配器
+     * @param <VH>
+     */
     abstract static class A_RVAdapter<VH extends RecyclerView.ViewHolder> extends RecyclerView.Adapter<VH>{
         Context mContext;
+        CombineAdapter commonAdapter;
+
+
+        public void setCommonAdapter(CombineAdapter commonAdapter) {
+            this.commonAdapter = commonAdapter;
+        }
+
+        /**
+         * 每行高度
+         */
+        int rowHeight = 100;
+
+        int measureTextViewHeight(int position){
+            return 200;
+        }
 
         int measureTextViewHeight(){
             return 200;
-        };
+        }
 
         void smoothShowView(int targetHeight, final View tvDes) {
-            tvDes.getLayoutParams().height = 1;
+            int startHeight = 0;
+            tvDes.getLayoutParams().height = startHeight;
             tvDes.setVisibility(View.VISIBLE);
-            ValueAnimator animatorHeight = ValueAnimator.ofInt(1,targetHeight);
+            ValueAnimator animatorHeight = ValueAnimator.ofInt(startHeight,targetHeight);
             animatorHeight.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
                 @Override
                 public void onAnimationUpdate(ValueAnimator animation) {
@@ -248,12 +271,34 @@ public class ExpandnableTableLayoutActivity extends AppCompatActivity {
             animatorHeight.start();
         }
 
-
-        void hideChildRow(View tvDes, int i) {
+        /**
+         * 动画隐藏view
+         * @param tvDes
+         */
+        void smoothHideView(final View tvDes) {
+            int startHeight = 0;
+            tvDes.getLayoutParams().height = startHeight;
+            tvDes.setVisibility(View.VISIBLE);
+            ValueAnimator animatorHeight = ValueAnimator.ofInt(startHeight,0);
+            animatorHeight.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                @Override
+                public void onAnimationUpdate(ValueAnimator animation) {
+                    tvDes.getLayoutParams().height = (int) animation.getAnimatedValue();
+                    tvDes.setLayoutParams(tvDes.getLayoutParams());
+                }
+            });
+            animatorHeight.setDuration(200);
+            animatorHeight.start();
         }
 
-        void showChildRow(View tvDes, int i) {
-        }
+
+    }
+
+    abstract class CombineAdapter<F extends RecyclerView.ViewHolder,A extends RecyclerView.ViewHolder>{
+        abstract void onFixBindViewHolder(@NonNull F viewHolder, int i);
+        abstract void onActiveBindViewHolder(@NonNull A viewHolder, int i);
+        abstract View getFixView();
+        abstract View getMoveView();
     }
 
 }

@@ -24,14 +24,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
+                android:overScrollMode="never"
                 android:scrollbars="none"
                 android:scrollbarSize="0dp"
                 android:fadingEdge="none"
                 >
-                <!-- android:scrollbars="none"
-                android:scrollbarSize="0dp"
-                android:overScrollMode="never"
-                android:fadingEdge="none"-->
                 <com.bluetree.jetpacksample.activity.MyFrameLayout2
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">

@@ -68,9 +68,9 @@ public class FrameRecycleView extends RecyclerView {
     @Override
     public boolean onTouchEvent(MotionEvent e) {
         LogUtils.i("FrameRecycleView.onTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
-        if (e.getAction() == ACTION_MOVE) {
+       /* if (e.getAction() == ACTION_MOVE) {
             return false;
-        }
+        }*/
         return super.onTouchEvent(e);
     }
 }

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="100dp"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:orientation="horizontal"
+        android:background="@android:color/white"
+        >
+
+        <TextView
+            android:id="@+id/tv_current_price"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/tv_chg"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/tv_short_des"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/tv_short_des2"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="--"/>
+
+        <TextView
+            android:id="@+id/tv_short_des3"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="--"/>
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/v_space"
+        android:layout_width="150dp"
+        android:layout_height="50dp"
+        android:visibility="gone"
+        android:text="--"/>
+</LinearLayout>
