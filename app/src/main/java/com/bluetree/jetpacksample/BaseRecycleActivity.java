@@ -1,4 +1,4 @@
-package com.bluetree.jetpacksample.activity;
+package com.bluetree.jetpacksample;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -41,7 +41,7 @@ abstract public class BaseRecycleActivity extends BaseActivity {
         adapter.setOnItemClickListener(getItemClickListener());
     }
 
-    abstract List initList();
+    public abstract List initList();
     protected abstract BaseQuickAdapter.OnItemClickListener getItemClickListener();
 
 

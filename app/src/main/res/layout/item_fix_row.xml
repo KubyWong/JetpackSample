@@ -6,7 +6,7 @@
     android:orientation="vertical">
     <LinearLayout
         android:id="@+id/linear_fix_title"
-        android:layout_width="150dp"
+        android:layout_width="100dp"
         android:layout_height="50dp"
         android:background="@android:color/white"
         android:orientation="vertical">

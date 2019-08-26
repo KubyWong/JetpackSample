@@ -1,4 +1,4 @@
-package com.bluetree.jetpacksample.activity;
+package com.bluetree.jetpacksample.coustom_view;
 
 import android.content.Context;
 import android.support.annotation.Nullable;

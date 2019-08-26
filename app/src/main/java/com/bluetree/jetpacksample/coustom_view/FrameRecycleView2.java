@@ -1,9 +1,11 @@
-package com.bluetree.jetpacksample.activity;
+package com.bluetree.jetpacksample.coustom_view;
 
 import android.content.Context;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
+import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
-import android.widget.HorizontalScrollView;
 
 import com.bluetree.jetpacksample.utils.LogUtils;
 
@@ -11,23 +13,27 @@ import static android.view.MotionEvent.ACTION_DOWN;
 import static android.view.MotionEvent.ACTION_MOVE;
 import static android.view.MotionEvent.ACTION_UP;
 
-public class MyHorizontalScrollView extends HorizontalScrollView {
-    public MyHorizontalScrollView(Context context) {
+/**
+ * 取消拦截触摸事件的Recycleview
+ */
+public class FrameRecycleView2 extends RecyclerView {
+
+    public FrameRecycleView2(@NonNull Context context) {
         super(context);
     }
 
-    public MyHorizontalScrollView(Context context, AttributeSet attrs) {
+    public FrameRecycleView2(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
     }
 
-    public MyHorizontalScrollView(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr);
+    public FrameRecycleView2(@NonNull Context context, @Nullable AttributeSet attrs, int defStyle) {
+        super(context, attrs, defStyle);
     }
 
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent e) {
-        LogUtils.i("MyHorizontalScrollView.dispatchTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
+        LogUtils.i("FrameRecycleView2.dispatchTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
         switch (e.getAction()) {
             case ACTION_DOWN:
                 LogUtils.i("down--->");
@@ -52,14 +58,19 @@ public class MyHorizontalScrollView extends HorizontalScrollView {
 
     @Override
     public boolean onInterceptTouchEvent(MotionEvent e) {
-        LogUtils.i("MyHorizontalScrollView.onInterceptTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
-//        return true;
+        LogUtils.i("FrameRecycleView2.onInterceptTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
+        /*if (e.getAction() == ACTION_MOVE) {
+            return false;
+        }*/
         return super.onInterceptTouchEvent(e);
     }
 
     @Override
     public boolean onTouchEvent(MotionEvent e) {
-        LogUtils.i("MyHorizontalScrollView.onTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
+        LogUtils.i("FrameRecycleView2.onTouchEvent(x,y) = (" + e.getX() + "," + e.getY() + ")");
+       /* if (e.getAction() == ACTION_MOVE) {
+            return false;
+        }*/
         return super.onTouchEvent(e);
     }
 }

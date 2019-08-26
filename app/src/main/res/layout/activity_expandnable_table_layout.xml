@@ -15,12 +15,12 @@
             android:layout_width="match_parent"
             android:layout_height="100dp"></LinearLayout>
 
-        <com.bluetree.jetpacksample.activity.MyFrameLayout
+        <com.bluetree.jetpacksample.coustom_view.MyFrameLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             >
 
-            <com.bluetree.jetpacksample.activity.MyHorizontalScrollView
+            <com.bluetree.jetpacksample.coustom_view.MyHorizontalScrollView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="100dp"
@@ -29,7 +29,7 @@
                 android:scrollbarSize="0dp"
                 android:fadingEdge="none"
                 >
-                <com.bluetree.jetpacksample.activity.MyFrameLayout2
+                <com.bluetree.jetpacksample.coustom_view.MyFrameLayout2
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content">
                     <android.support.v7.widget.RecyclerView
@@ -39,16 +39,16 @@
                         android:layout_height="wrap_content">
 
                     </android.support.v7.widget.RecyclerView>
-                </com.bluetree.jetpacksample.activity.MyFrameLayout2>
-            </com.bluetree.jetpacksample.activity.MyHorizontalScrollView>
+                </com.bluetree.jetpacksample.coustom_view.MyFrameLayout2>
+            </com.bluetree.jetpacksample.coustom_view.MyHorizontalScrollView>
 
-            <com.bluetree.jetpacksample.activity.FrameRecycleView
+            <com.bluetree.jetpacksample.coustom_view.FrameRecycleView
                 android:id="@+id/lv_fixed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:layoutManager="android.support.v7.widget.LinearLayoutManager"
                 />
-        </com.bluetree.jetpacksample.activity.MyFrameLayout>
+        </com.bluetree.jetpacksample.coustom_view.MyFrameLayout>
 
     </LinearLayout>
 </ScrollView>

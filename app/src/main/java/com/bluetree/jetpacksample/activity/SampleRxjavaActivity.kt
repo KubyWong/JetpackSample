@@ -3,6 +3,7 @@ package com.bluetree.jetpacksample.activity
 import android.os.*
 import android.view.View
 import android.widget.TextView
+import com.bluetree.jetpacksample.BaseRecycleActivity
 import com.bluetree.jetpacksample.utils.LogUtils
 import com.bluetree.jetpacksample.utils.ToastUtils
 import com.chad.library.adapter.base.BaseQuickAdapter
@@ -365,7 +366,7 @@ Schedulers.computation(): 计算所使用的 Scheduler。这个计算指的是 C
 
         })
 
-        //被观察者订阅观察者
+        //被观察者订阅观察者，相当于只实现了onNext方法
         observable.subscribe(object : Consumer<String> {
             override fun accept(t: String?) {
                 LogUtils.i("快速创建一个观察者 ，仅仅实现accept()函数即可，相当于Observer的next()函数，拿到了数据 $t")
@@ -435,4 +436,12 @@ Schedulers.computation(): 计算所使用的 Scheduler。这个计算指的是 C
     }
     class Student(var name:String, var list: MutableList<Course>?) {
     }
+/*
+    open abstract class GuanChaZhe<T> {
+        abstract fun onNext(s:T)
+        abstract fun onError()
+    }
+    class BeiGuanChaZhe{
+
+    }*/
 }

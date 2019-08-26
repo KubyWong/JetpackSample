@@ -18,13 +18,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bluetree.jetpacksample.R;
+import com.bluetree.jetpacksample.activity.ExpandnableTableLayoutActivity2;
 import com.bluetree.jetpacksample.activity.SampleBindDataActivity;
+import com.bluetree.jetpacksample.activity.SampleFingerPrinterActivity;
 import com.bluetree.jetpacksample.activity.SampleNavigationActivity;
 import com.bluetree.jetpacksample.activity.SamplePagingActivity;
 import com.bluetree.jetpacksample.activity.SampleRecycleViewActivity;
 import com.bluetree.jetpacksample.activity.SampleReqNetWorkActivity;
 import com.bluetree.jetpacksample.activity.SampleRxjavaActivity;
 import com.bluetree.jetpacksample.activity.SampleViewModelActivity;
+import com.bluetree.jetpacksample.activity.TreeViewActivity;
+import com.bluetree.jetpacksample.coustom_view.TreeView;
 import com.bluetree.jetpacksample.utils.LogUtils;
 import com.bluetree.jetpacksample.utils.ToastUtils;
 import com.bluetree.jetpacksample.utils.http.BaseHttpRetrofitCallback;
@@ -66,6 +70,9 @@ public class SampleActivity extends BaseActivity {
         list.add("navigation导航");//5
         list.add("一个开源易用的RecycleviewAdapter");//6
         list.add("rxjava");//7
+        list.add("封装双Recycleview实现的表格布局");//8
+        list.add("指纹验证");//9
+        list.add("高级自定义控件TreeView，曲线");//10
 
         RecyclerView rv = findViewById(R.id.rv);
         rv.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
@@ -129,6 +136,15 @@ public class SampleActivity extends BaseActivity {
                                 break;
                             case 7:
                                 jumpActivity(SampleRxjavaActivity.class);
+                                break;
+                            case 8:
+                                jumpActivity(ExpandnableTableLayoutActivity2.class);
+                                break;
+                            case 9:
+                                jumpActivity(SampleFingerPrinterActivity.class);
+                                break;
+                            case 10:
+                                jumpActivity(TreeViewActivity.class);
                                 break;
                         }
                     }
