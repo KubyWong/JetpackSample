@@ -36,9 +36,14 @@ class TreeView: View {
 
     private fun getBranches(): Branch {
         val bs = Array<IntArray>(3){ IntArray(10) }
-        bs[0] = intArrayOf( 0, -1, 126, 243, 102, 152, 127, 41, 40, 100)
-        bs[1] = intArrayOf( 1,  0, 104, 182, 160, 160, 187,111, 20, 100)
-        bs[2] = intArrayOf( 2,  1, 169, 152, 230, 134, 230, 142, 10, 100)
+
+        bs[0] = intArrayOf(0, -1,  340, 617, 210, 435, 324, 301, 30, 100)
+        bs[1] = intArrayOf(1,  0,  285, 518, 220, 353, 154, 351, 15, 70)
+        bs[2] = intArrayOf(2,  1,  237, 413, 221, 432, 155, 402,  6,  60)
+
+//        bs[0] = intArrayOf( 0, -1, 126, 243, 102, 152, 127, 41, 40, 100)
+//        bs[1] = intArrayOf( 1,  0, 104, 182, 160, 160, 187,111, 20, 60)
+//        bs[2] = intArrayOf( 2,  1, 169, 152, 230, 134, 230, 142, 10, 40)
 //        bs[0] = intArrayOf( 1, -1, 126, 243, 102, 152, 127, 41, 40, 100)
 //        bs[0] = intArrayOf( 1, -1, 126, 243, 102, 152, 127, 41, 40, 100)
 //        bs[0] = intArrayOf( 1, -1, 126, 243, 102, 152, 127, 41, 40, 100)
@@ -47,8 +52,10 @@ class TreeView: View {
         var temp = arrayOfNulls<Branch>(3)
         for (i in 0..bs.size-1) {
             temp[i] = Branch(bs[i])
-            if (temp[i]!!.parentId > -1) {
-                temp[temp[i]!!.parentId]?.addChild(temp[i])
+            val parentId = temp[i]!!.parentId
+
+            if (parentId > -1) {
+                temp[parentId]?.addChild(temp[i])
             }
         }
         return temp[0]!!
@@ -75,7 +82,10 @@ class TreeView: View {
     }
 
     private fun drawBranches() {
-        if (linkedListBranch != null) {
+
+        if (!linkedListBranch.isEmpty()) {
+
+//            if (linkedListBranch != null) {
 
 
             var nextRankBranch: LinkedList<Branch>? = null
@@ -86,9 +96,9 @@ class TreeView: View {
 
             while (it.hasNext()) {
                 var itemBranch = it.next()
-                if (!itemBranch.drawGrowingBranch(snapShot.canvas,paint,1)) {
+                if (!itemBranch.drawGrowingBranch(snapShot.canvas, paint, 1)) {
                     it.remove()
-                    if (itemBranch.childBranch.size > 0) {
+                    if (itemBranch.childBranch != null) {
                         if (nextRankBranch == null) {
                             nextRankBranch = itemBranch.childBranch
                         } else {
@@ -100,10 +110,13 @@ class TreeView: View {
 
             snapShot.canvas.restore()
 
-            if (nextRankBranch == null || nextRankBranch.size == 0) {
-                hasEnd = true
-            } else {
+            //解决无法添加树枝的
+            if (nextRankBranch != null) {
                 linkedListBranch.addAll(nextRankBranch)
+            }
+
+            if (linkedListBranch.isEmpty()) {
+                hasEnd = true
             }
 
         }
@@ -117,23 +130,25 @@ class TreeView: View {
 
         constructor(createBitmap: Bitmap?){
             this.bitmap = createBitmap
-            canvas = Canvas()
-            canvas.drawBitmap(createBitmap,0f,0f,paint)
+            this.canvas = Canvas(bitmap)
+            /*canvas = Canvas()
+            var p = Paint()
+            p.color = Color.RED
+            canvas.drawBitmap(createBitmap,0f,0f,p)*/
         }
 
         var bitmap: Bitmap?
-        private val paint: Paint = Paint()
         var canvas: Canvas
     }
 
     /**
      * 树干类
      */
-    class Branch() {
+    class Branch {
+        private val TAG: String? = "Branch"
         private var currentX: Float = 0.0f
         private var currentY: Float = 0.0f
         private var currentLenght: Int = 0
-        private val paint: Paint = Paint()
         public lateinit var childBranch: LinkedList<Branch>
         private var maxLength: Int = 0
         private var radius: Float = 0f
@@ -143,17 +158,16 @@ class TreeView: View {
         private lateinit var controlPoint: Point
         private lateinit var startPoint: Point
 
-        constructor(data: IntArray) : this(){
-            id = data[0]
-            parentId = data[1]
-            startPoint = Point(data[2], data[3])
-            controlPoint = Point(data[4], data[5])
-            endPoint = Point(data[6], data[7])
-            radius = data[8]*1.0f
-            maxLength = data[9]
+        constructor(data: IntArray) {
+            this.id = data[0]
+            this.parentId = data[1]
+            this.startPoint = Point(data[2], data[3])
+            this.controlPoint = Point(data[4], data[5])
+            this.endPoint = Point(data[6], data[7])
+            this.radius = data[8]*1.0f
+            this.maxLength = data[9]
 
 
-            paint.color = Color.RED
             childBranch = LinkedList<Branch>()
         }
 
@@ -164,11 +178,11 @@ class TreeView: View {
             branch?.let { childBranch.add(it) }
         }
 
-        fun drawGrowingBranch(canvas: Canvas, paint: Paint, i: Int): Boolean {
-
+        fun drawGrowingBranch(canvas: Canvas, paint: Paint, scaleFactor: Int): Boolean {
+            Log.i(TAG,"grow $currentLenght")
             if (currentLenght < maxLength) {
                 bezier()
-                draw(canvas,paint,i*1f)
+                draw(canvas,paint,scaleFactor*1f)
                 radius *= 0.97f
                 currentLenght++
 
@@ -184,6 +198,8 @@ class TreeView: View {
             canvas.save()
             canvas.scale(i,i)
             canvas.translate(currentX,currentY)
+
+            Log.i(TAG,"radius is $radius")
             canvas.drawCircle(0f,0f,radius,paint)
             canvas.restore()
         }
@@ -192,12 +208,16 @@ class TreeView: View {
          * 贝塞尔算法计算新的坐标
          */
         private fun bezier() {
-            var t = currentLenght / maxLength*1f
+            var t = currentLenght*1f / maxLength
             var c0 = (1 - t) * (1 - t)
-            var c1 = 2 * (1 - t)
+            var c1 = 2 * t * (1 - t)
             var c2 = t * t
             currentX = c0 * startPoint.x + c1 * controlPoint.x + c2 * endPoint.x
             currentY = c0 * startPoint.y + c1 * controlPoint.y + c2 * endPoint.y
+
+            Log.i(TAG,"x,y -> ($currentX,$currentY)")
+
+
         }
     }
 
