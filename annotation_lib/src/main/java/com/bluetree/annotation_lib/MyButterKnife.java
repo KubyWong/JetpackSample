@@ -9,15 +9,11 @@ import com.bluetree.annotation_lib.IBind;
 public class MyButterKnife {
     public static void bind(Object activity) {
         String name = activity.getClass().getName() + "_ViewBinding";
-        System.out.println("className:"+name);
         try {
             // Class.forName("ClassName")方式会执行类加载的加载、链接、初始化三个步骤
             Class<?> aClass = Class.forName(name);
             IBind iBinder = (IBind) aClass.newInstance();
-
-            System.out.println("sdfasdfasdfasdfasdf:"+iBinder);
             iBinder.bind(activity);
-
         } catch (Exception e) {
             e.printStackTrace();
         }

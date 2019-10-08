@@ -15,13 +15,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.SampleAnnotationActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name=".activity.SampleMyOkHttpActivity"></activity>
         <activity android:name=".activity.TreeViewActivity" />
         <activity android:name=".activity.SampleFingerPrinterActivity" />
         <activity android:name=".activity.ExpandnableTableLayoutActivity2" />
@@ -33,12 +27,13 @@
         <activity android:name=".activity.SamplePagingActivity" />
         <activity android:name=".activity.SampleRecycleViewActivity" />
         <activity android:name=".activity.SampleViewModelActivity" />
+        <activity android:name=".activity.SampleAnnotationActivity" />
         <activity android:name=".SampleActivity">
-            <!--<intent-filter>
+            <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>-->
+            </intent-filter>
         </activity>
     </application>
 

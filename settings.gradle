@@ -1,1 +1,1 @@
-include ':app', ':annotation_lib', ':annotation_compiler_lib'
+include ':app', ':annotation_lib', ':annotation_compiler_lib', ':myokhttp', ':myskinlib'

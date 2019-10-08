@@ -22,7 +22,6 @@ public class SampleAnnotationActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sample_annotation);
         MyButterKnife.bind(SampleAnnotationActivity.this);
-//        textView = SampleAnnotationActivity.this.findViewById(R.id.textView);
 
         button2.setText("333");
 

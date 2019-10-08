@@ -52,4 +52,8 @@ dependencies {
     implementation project(path: ':annotation_lib')
     //step3：引入类注解编译器
     annotationProcessor project(path: ':annotation_compiler_lib')
+    implementation project(path: ':myokhttp')
+    implementation project(path: ':myskinlib')
+
+
 }

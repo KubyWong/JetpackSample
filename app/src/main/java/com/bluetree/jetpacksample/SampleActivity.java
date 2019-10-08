@@ -3,10 +3,7 @@ package com.bluetree.jetpacksample;
 import android.arch.lifecycle.Lifecycle;
 import android.arch.lifecycle.LifecycleObserver;
 import android.arch.lifecycle.OnLifecycleEvent;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.NonNull;
 import android.os.Bundle;
 import android.support.v7.widget.DividerItemDecoration;
@@ -15,12 +12,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.bluetree.jetpacksample.R;
 import com.bluetree.jetpacksample.activity.ExpandnableTableLayoutActivity2;
+import com.bluetree.jetpacksample.activity.SampleAnnotationActivity;
 import com.bluetree.jetpacksample.activity.SampleBindDataActivity;
 import com.bluetree.jetpacksample.activity.SampleFingerPrinterActivity;
+import com.bluetree.jetpacksample.activity.SampleMyOkHttpActivity;
 import com.bluetree.jetpacksample.activity.SampleNavigationActivity;
 import com.bluetree.jetpacksample.activity.SamplePagingActivity;
 import com.bluetree.jetpacksample.activity.SampleRecycleViewActivity;
@@ -28,31 +25,12 @@ import com.bluetree.jetpacksample.activity.SampleReqNetWorkActivity;
 import com.bluetree.jetpacksample.activity.SampleRxjavaActivity;
 import com.bluetree.jetpacksample.activity.SampleViewModelActivity;
 import com.bluetree.jetpacksample.activity.TreeViewActivity;
-import com.bluetree.jetpacksample.coustom_view.TreeView;
 import com.bluetree.jetpacksample.utils.LogUtils;
 import com.bluetree.jetpacksample.utils.ToastUtils;
-import com.bluetree.jetpacksample.utils.http.BaseHttpRetrofitCallback;
-import com.bluetree.jetpacksample.utils.http.BaseHttpRxjavaCallback;
-import com.bluetree.jetpacksample.utils.http.HttpUtils;
+import com.bluetree.myskinlib.SampleChangeSkin1Activity;
 
-import java.io.IOException;
-import java.lang.ref.WeakReference;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import io.reactivex.Observable;
-import io.reactivex.Observer;
-import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.functions.Function;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-import retrofit2.adapter.rxjava2.Result;
 
 public class SampleActivity extends BaseActivity {
 
@@ -73,6 +51,9 @@ public class SampleActivity extends BaseActivity {
         list.add("封装双Recycleview实现的表格布局");//8
         list.add("指纹验证");//9
         list.add("高级自定义控件TreeView，曲线");//10
+        list.add("自定义ButterKnife");//11
+        list.add("自己封装网络请求框架");//12
+        list.add("动态下载皮肤插件，实现换肤功能");//13
 
         RecyclerView rv = findViewById(R.id.rv);
         rv.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
@@ -145,6 +126,15 @@ public class SampleActivity extends BaseActivity {
                                 break;
                             case 10:
                                 jumpActivity(TreeViewActivity.class);
+                                break;
+                            case 11:
+                                jumpActivity(SampleAnnotationActivity.class);
+                                break;
+                            case 12:
+                                jumpActivity(SampleMyOkHttpActivity.class);
+                                break;
+                            case 13:
+                                jumpActivity(SampleChangeSkin1Activity.class);
                                 break;
                         }
                     }
