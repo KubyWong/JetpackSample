@@ -1,6 +1,7 @@
 package com.bluetree.jetpacksample;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,9 @@ public class BaseActivity extends AppCompatActivity {
             progressDialog.dismiss();
         }
     }
+    public void jumpActivity(Class<?> targetClass) {
+        startActivity(new Intent(this,targetClass));
+    }
 
     @Override
     protected void onResume() {
@@ -51,4 +55,5 @@ public class BaseActivity extends AppCompatActivity {
         LogUtils.i(this,"onDestroy");
         super.onDestroy();
     }
+
 }

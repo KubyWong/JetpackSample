@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 abstract public class BaseRecycleActivity extends BaseActivity {
-    List list;
+    List<MyDataModel> list;
     private RecyclerView rv;
 
     @Override
@@ -41,7 +41,7 @@ abstract public class BaseRecycleActivity extends BaseActivity {
         adapter.setOnItemClickListener(getItemClickListener());
     }
 
-    public abstract List initList();
+    public abstract List<MyDataModel> initList();
     protected abstract BaseQuickAdapter.OnItemClickListener getItemClickListener();
 
 

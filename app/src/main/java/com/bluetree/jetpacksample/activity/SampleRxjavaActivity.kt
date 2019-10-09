@@ -33,7 +33,7 @@ class SampleRxjavaActivity : BaseRecycleActivity() {
 
         }
     }
-    override fun initList(): MutableList<Any?> {
+    override fun initList(): MutableList<MyDataModel>? {
         val listData = mutableListOf<MyDataModel>()
         listData.add(MyDataModel("", "rxjava框架作用是异步，原理是观察者模式"))
         listData.add(MyDataModel("", "快速创建observer，仅仅实现onNext函数即可，rxjava自动帮你构建出observer"))

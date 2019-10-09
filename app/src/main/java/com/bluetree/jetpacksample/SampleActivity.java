@@ -16,6 +16,7 @@ import android.widget.TextView;
 import com.bluetree.jetpacksample.activity.ExpandnableTableLayoutActivity2;
 import com.bluetree.jetpacksample.activity.SampleAnnotationActivity;
 import com.bluetree.jetpacksample.activity.SampleBindDataActivity;
+import com.bluetree.jetpacksample.activity.SampleCustomViewActivity;
 import com.bluetree.jetpacksample.activity.SampleFingerPrinterActivity;
 import com.bluetree.jetpacksample.activity.SampleMyOkHttpActivity;
 import com.bluetree.jetpacksample.activity.SampleNavigationActivity;
@@ -125,7 +126,7 @@ public class SampleActivity extends BaseActivity {
                                 jumpActivity(SampleFingerPrinterActivity.class);
                                 break;
                             case 10:
-                                jumpActivity(TreeViewActivity.class);
+                                jumpActivity(SampleCustomViewActivity.class);
                                 break;
                             case 11:
                                 jumpActivity(SampleAnnotationActivity.class);
@@ -150,9 +151,7 @@ public class SampleActivity extends BaseActivity {
         rv.setAdapter(adapter);
     }
 
-    private void jumpActivity(Class<?> targetClass) {
-        startActivity(new Intent(SampleActivity.this,targetClass));
-    }
+
 
 
     /**

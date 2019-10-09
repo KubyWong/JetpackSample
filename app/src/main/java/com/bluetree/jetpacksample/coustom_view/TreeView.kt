@@ -131,10 +131,6 @@ class TreeView: View {
         constructor(createBitmap: Bitmap?){
             this.bitmap = createBitmap
             this.canvas = Canvas(bitmap)
-            /*canvas = Canvas()
-            var p = Paint()
-            p.color = Color.RED
-            canvas.drawBitmap(createBitmap,0f,0f,p)*/
         }
 
         var bitmap: Bitmap?
