@@ -13,8 +13,10 @@
         android:layout_marginStart="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginTop="8dp"
-        android:onClick="onclickLis"
         android:text="加载皮肤插件"
+        android:padding="@dimen/a16dp"
+        android:textColor="@color/colorPrimary"
+        android:background="@color/colorAccent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 </android.support.constraint.ConstraintLayout>

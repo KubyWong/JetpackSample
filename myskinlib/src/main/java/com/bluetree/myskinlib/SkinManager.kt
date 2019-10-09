@@ -25,24 +25,61 @@ class SkinManager {
      * 皮肤插件的文件路径
      */
     var skinPath: String = ""
-    set(value) {
-        skinPath = value
+
+    fun getColor(propertyItem: SkinFactory2.PropertyItem):Int {
+        if(skinRes == null|| context == null) return propertyItem.viewAtrriValueId
+        val newAttriId = skinRes!!.getIdentifier(propertyItem.attriName, propertyItem.attriType, packageName)
+        if(newAttriId == 0) return propertyItem.viewAtrriValueId
+
+        var result = 0
+
+        try {
+            result = skinRes?.getColor(newAttriId)!!
+        } catch (e: Exception) {
+            e.printStackTrace()
+            result = 0
+        }
+        return result
+    }
+
+    fun getIdFromSkinPackage(propertyItem: SkinFactory2.PropertyItem):Int {
+        if(skinRes == null|| context == null) return propertyItem.viewAtrriValueId
+        val newAttriId = skinRes!!.getIdentifier(propertyItem.attriName, propertyItem.attriType, packageName)
+        if(newAttriId == 0) {
+            return propertyItem.viewAtrriValueId
+        }else{
+            return newAttriId
+        }
+    }
+
+    fun changeSkin() {
         context?.let {
             //1、加载皮肤插件，获取皮肤插件的资源文件管理类
 
             //1-1、根据皮肤插件的路径，获取包名
-            var packageInfo = it.packageManager.getPackageArchiveInfo(value, PackageManager.GET_ACTIVITIES)
+            var packageInfo = it.packageManager.getPackageArchiveInfo(skinPath, PackageManager.GET_ACTIVITIES)
             packageName = packageInfo.packageName
 
             //1-2、根据包名，实例化AssetManager来创建插件的Resource对象
-            val assets = AssetManager::class.java.newInstance()
-            var method = assets.javaClass.getMethod("addAssetPath", String::class.java)//获取addAssetPath方法对象
-            method.invoke(assets, packageName)//调用方法，传入对象
+            /*  val assets = AssetManager::class.java.newInstance()
+              var method = assets.javaClass.getMethod("addAssetPath", String::class.java)//获取addAssetPath方法对象
+              method.invoke(assets, packageName)//调用方法，传入对象*/
+
+
+            var assets: AssetManager? = null
+            try {
+                assets = AssetManager::class.java.newInstance()
+                val method = assets!!.javaClass.getDeclaredMethod("addAssetPath", String::class.java)//方法名，参数类型
+                method.invoke(assets, skinPath)//调用该方法的对象，传入的参数
+            } catch (e: Exception) {
+                e.printStackTrace()
+            }
+
 
             //1-3、获取皮肤插件的resource对象
             skinRes = Resources(assets,it.resources.displayMetrics, it.resources.configuration)
-
         }
+
     }
 
     companion object {
