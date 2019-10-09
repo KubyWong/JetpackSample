@@ -41,10 +41,12 @@ class SkinFactory2 : LayoutInflater.Factory2 {
         for (item in skinViewList) {
             if(item.listPropertyItem == null) continue
             for (itemProperty in item.listPropertyItem!!) {
-                if (itemProperty.viewAttriName.equals("background")) {
-                    item.view.setBackgroundResource(SkinManager.getInstance().getIdFromSkinPackage(itemProperty))
+                if (itemProperty.viewAttriName.contains("background")) {
+                    if (itemProperty.attriType.contains("color")) {
+                        item.view.setBackgroundColor(SkinManager.getInstance().getColor(itemProperty))
+                    }
                 } else if (itemProperty.viewAttriName.equals("textColor")) {
-                    (item.view as TextView).setTextColor(SkinManager.getInstance().getIdFromSkinPackage(itemProperty))
+                    (item.view as TextView).setTextColor(SkinManager.getInstance().getColor(itemProperty))
                 }
                 //todo...完善规则
             }
@@ -74,6 +76,7 @@ class SkinFactory2 : LayoutInflater.Factory2 {
                 val id = Integer.parseInt(value.substring(1))
                 val attriType = view.resources.getResourceTypeName(id)//根据id获取属性值的类型
                 val attriName = view.resources.getResourceEntryName(id)//根据id获取属性值的名称
+                R.color.colorPrimaryDark
                 val propertyItem = PropertyItem(name, id, attriType, attriName)
                 listPropertyItem.add(propertyItem)
 
