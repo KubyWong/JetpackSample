@@ -25,7 +25,7 @@ class SampleChangeSkin1Activity : SkinBaseActivity(),View.OnClickListener {
                  if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED) {
                      SkinManager.getInstance().context = this
                      //这个apk可以在raw目录下找到，拷贝到手机目录下对应的目录即可。主要是模拟下载到手机本地的操作
-                     SkinManager.getInstance().skinPath = Environment.getExternalStorageDirectory().absolutePath + "/Download/app-release.apk"
+                     SkinManager.getInstance().skinPath = Environment.getExternalStorageDirectory().absolutePath + "/Download/app_release.apk"
 
                      applySkin()
                  }else{
